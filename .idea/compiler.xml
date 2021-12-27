@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="telemetry" />
+        <module name="attributes" />
+        <module name="devices" />
+        <module name="users" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="attributes_" target="11" />
+      <module name="attributes__" target="11" />
+      <module name="telemetries" target="11" />
+      <module name="test" target="11" />
+      <module name="user-device-service" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="attributes" options="-parameters" />
+      <module name="attributes_" options="-parameters" />
+      <module name="attributes__" options="-parameters" />
+      <module name="devices" options="-parameters" />
+      <module name="telemetries" options="-parameters" />
+      <module name="telemetry" options="-parameters" />
+      <module name="users" options="-parameters" />
+    </option>
+  </component>
+</project>

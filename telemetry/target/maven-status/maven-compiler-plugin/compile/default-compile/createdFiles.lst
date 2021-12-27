@@ -1,0 +1,5 @@
+com/thingscloud/telemetry/TelemetryApplication.class
+com/thingscloud/telemetry/TelemetryService.class
+com/thingscloud/telemetry/TelemetryRepository.class
+com/thingscloud/telemetry/TelemetryController.class
+com/thingscloud/telemetry/Telemetry.class

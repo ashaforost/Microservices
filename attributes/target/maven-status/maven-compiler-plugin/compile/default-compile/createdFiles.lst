@@ -1,0 +1,5 @@
+com/thingscloud/attributes/AttributesRepository.class
+com/thingscloud/attributes/Attribute.class
+com/thingscloud/attributes/AttributesService.class
+com/thingscloud/attributes/AttributesApplication.class
+com/thingscloud/attributes/AttributesController.class
