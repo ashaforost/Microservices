@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class DeviceService {
 
@@ -71,14 +73,14 @@ public class DeviceService {
         restTemplate.delete(
                 "http://telemetry:8093/api/telemetry/{device_id}",
                 String.class,
-                device_id
+                device_id.toString()
         );
 
 
         restTemplate.delete(
                 "http://attributes:8094/api/telemetry/{device_id}",
                 String.class,
-                device_id
+                device_id.toString()
         );
 
 
