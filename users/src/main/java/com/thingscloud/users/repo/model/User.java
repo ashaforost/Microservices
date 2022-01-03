@@ -12,12 +12,16 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table (name = "users")
+@Table (name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "email")
+        }
+        )
 @AllArgsConstructor
 @NoArgsConstructor
 public class User{
 
-    @Id()
+    @Id
     @Column (name = "user_id")
     private UUID id;
 
@@ -42,7 +46,7 @@ public class User{
 
     private int deviceLimit;
 
-    public User( String firstName, String lastName, String email, long currentTimeMillis, String password, String user_role) {
+    public User( String firstName, String lastName, String email, long currentTimeMillis, String password, String user_role, int device_limit) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
@@ -53,6 +57,7 @@ public class User{
         this.password = passwordEncoder.encode(password);
         this.createdTime = currentTimeMillis;
         this.role = user_role;
+        this.deviceLimit = device_limit;
     }
 
     public int getDeviceLimit() {

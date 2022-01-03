@@ -1,10 +1,7 @@
 package com.thingscloud.users.api;
-
-
-
-import com.thingscloud.users.Service.UserService;
+import com.thingscloud.users.Service.impl.UserServiceImpl;
 import com.thingscloud.users.repo.model.User;
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,48 +11,43 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
+@AllArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    public UserController(UserService userService){
-        this.userService = userService;
-    }
+
     @GetMapping()
     public ResponseEntity<List<User>> getUsers(){
-        return ResponseEntity.ok(userService.getUsers());
+        return ResponseEntity.ok(userServiceImpl.getUsers());
     }
 
-    @GetMapping (value = "/{firstName}/{lastName}")
-    public ResponseEntity<List<User>> getUserByNameOrLastName(@PathVariable String firstName, @PathVariable String lastName){
-        try {
-            return ResponseEntity.ok(userService.getUserByFirstNameAndLastName(firstName,lastName ));
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
 
     @GetMapping(value = "/{email}")
     public ResponseEntity<User> getUserEmail(@PathVariable String email){
         try {
-            return ResponseEntity.ok(userService.getUserByEmail(email));
+            return ResponseEntity.ok(userServiceImpl.getUserByEmail(email));
         }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping(value = "/device/{user_id}")
     public ResponseEntity getUserDevices(@PathVariable String user_id){
-            return ResponseEntity.ok(userService.getUserDevices(UUID.fromString(user_id)));
+            try{
+                return ResponseEntity.ok(userServiceImpl.getUserDevices(UUID.fromString(user_id)));
+            }catch (IllegalArgumentException e){
+                return ResponseEntity.notFound().build();
+            }
     }
 
 
     @GetMapping (value = "/id=/{id}")
     public ResponseEntity<User> getUser(@PathVariable String id){
         try {
-            return ResponseEntity.ok(userService.getUserById(UUID.fromString(id)));
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.ok(userServiceImpl.getUserById(UUID.fromString(id)));
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -63,21 +55,19 @@ public class UserController {
     @PostMapping()
     @ResponseBody
     public ResponseEntity<User> saveUser(@RequestBody User user) {
-        try {
-            return  ResponseEntity.ok(userService.save(user));
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        try{
+            return  ResponseEntity.ok(userServiceImpl.save(user));
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().build();
         }
+
+
 
     }
     @DeleteMapping(value = "/{id}")
-    public String deleteUser(@PathVariable String id){
-        try {
-            userService.deleteUserById(UUID.fromString(id));
-            return "User Deleted";
-        } catch (Exception e){
-            return "User not found!";
-        }
+    public ResponseEntity<Void> deleteUser(@PathVariable String id){
+            userServiceImpl.deleteUserById(UUID.fromString(id));
+        return ResponseEntity.noContent().build();
 
     }
 }

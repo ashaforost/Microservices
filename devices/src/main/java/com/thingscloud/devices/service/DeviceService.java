@@ -15,75 +15,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
-@Transactional
-@AllArgsConstructor
-public class DeviceService {
+public interface DeviceService {
 
-    private final DeviceRepository deviceRepository;
-    private final RestTemplate restTemplate;
+Optional<Device> getDeviceById(UUID id) ;
 
+    List<Device> getDeviceByName(String name);
+    List<Device> getAllDevices();
+    List<Device> findUserDevices(UUID userId) throws IllegalArgumentException;
+    UUID save(String name, UUID userId) throws  IllegalArgumentException;
 
-    public Optional<Device> getDeviceById(UUID id) {
-        return deviceRepository.findById(id);
-    }
+    void deleteDeviceById(String device_id) ;
 
-    public List<Device> getDeviceByName(String name) {
-        return deviceRepository.findByName(name);
-    }
-
-    public List<Device> getAllDevices() {
-        return deviceRepository.findAll();
-    }
-
-    public List<Device> findUserDevices(UUID userId) throws IllegalArgumentException {
-        return deviceRepository.findByUserId(userId);
-    }
-
-
-    public UUID save(String name, UUID userId) throws  IllegalArgumentException {
-        User user = restTemplate.getForObject(
-                "http://users:8091/users/id=/{id}",
-                User.class,
-                userId
-        );
-
-        int deviceLimit = user.getDeviceLimit();
-        long deviceCount  = deviceRepository.countByUserId(userId);
-
-        if ( deviceCount == deviceLimit){
-            throw new IllegalArgumentException("Device limit reached");
-        }
-
-        long createdTime = Instant.now().toEpochMilli();
-        UUID id = UUID.randomUUID();
-        SecureRandom random = new SecureRandom();
-        byte[] bytes = new byte[20];
-        random.nextBytes(bytes);
-        String token = bytes.toString();
-        final Device device = new Device(id, name, token, createdTime, userId );
-        final Device savedDevice = deviceRepository.save(device);
-        return savedDevice.getId();
-
-    }
-
-    public void deleteDeviceById(UUID device_id) {
-
-        deviceRepository.deleteById(device_id);
-        restTemplate.delete(
-                "http://telemetry:8093/api/telemetry/{device_id}",
-                String.class,
-                device_id.toString()
-        );
-
-
-        restTemplate.delete(
-                "http://attributes:8094/api/telemetry/{device_id}",
-                String.class,
-                device_id.toString()
-        );
-
-
-    }
 
 }
