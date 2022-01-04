@@ -45,7 +45,7 @@ public class DeviceServiceImpl implements DeviceService {
 
     public UUID save(String name, UUID userId) {
         User user = restTemplate.getForObject(
-                "http://localhost:8091/users/id=/{id}",
+                "http://users:8091/users/id=/{id}",
                 User.class,
                 userId
         );
@@ -77,13 +77,13 @@ public class DeviceServiceImpl implements DeviceService {
 
         deviceRepository.deleteById(UUID.fromString(device_id));
         restTemplate.delete(
-                "http://localhost:8093/api/telemetry/{device_id}",
+                "http://telemetry:8093/api/telemetry/{device_id}",
                 device_id
         );
 
 
         restTemplate.delete(
-                "http://localhost:8094/api/attributes/{device_id}",
+                "http://attributes:8094/api/attributes/{device_id}",
                 device_id
         );
 

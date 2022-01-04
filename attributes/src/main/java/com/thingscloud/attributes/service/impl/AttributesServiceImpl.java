@@ -26,7 +26,7 @@ public class AttributesServiceImpl implements AttributesService {
 
     public List<Attribute> postAttributes(String device_id, JsonNode payload) {
         Boolean isDevice =  restTemplate.getForObject(
-                "http://localhost:8092/device/exists/{id}",
+                "http://devices:8092/device/exists/{id}",
                 Boolean.class,
                 device_id
         );

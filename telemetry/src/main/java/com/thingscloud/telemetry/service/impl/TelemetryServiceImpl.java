@@ -24,7 +24,7 @@ public class TelemetryServiceImpl implements TelemetryService {
     private Boolean checkDevice(String device_id){
 
         Boolean isDevice = restTemplate.getForObject(
-                "http://localhost:8092/device/exists/{id}",
+                "http://devices:8092/device/exists/{id}",
                 Boolean.class,
                 device_id
         );

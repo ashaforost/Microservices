@@ -12,10 +12,6 @@ import java.util.UUID;
 public interface TelemetryRepository extends JpaRepository<Telemetry, UUID> {
 
     List<Telemetry> findAllByDeviceId(UUID id);
-
-    void deleteByKey(String key);
-
     void deleteTelemetriesByDeviceId (UUID id);
-//    void deleteAllByDeviceIdAnd;Key(UUID deviceId, String key);
 
 }

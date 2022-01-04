@@ -10,12 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-//@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -38,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     public List getUserDevices(UUID id){
        List devices =  restTemplate.getForObject(
-                "http://localhost:8092/device/v1/user/{userId}",
+                "http://devices:8092/device/v1/user/{userId}",
                 List.class,
                 id
         );
