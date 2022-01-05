@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.transaction.Transactional;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.UUID;
 
 
 @Service
-//@Transactional
 @AllArgsConstructor
 public class DeviceServiceImpl implements DeviceService {
 

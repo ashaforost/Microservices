@@ -13,7 +13,6 @@ import java.util.*;
 
 @Service
 @AllArgsConstructor
-//@Transactional
 public class AttributesServiceImpl implements AttributesService {
 
 

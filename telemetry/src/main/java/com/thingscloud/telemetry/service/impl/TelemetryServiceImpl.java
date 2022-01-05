@@ -14,7 +14,6 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-//@Transactional
 public class TelemetryServiceImpl implements TelemetryService {
 
 
