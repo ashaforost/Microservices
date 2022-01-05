@@ -17,7 +17,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "devices")
+
+@Table (name = "devices",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "device_name")
+        }
+)
+
 @EnableAutoConfiguration
 @Builder
 

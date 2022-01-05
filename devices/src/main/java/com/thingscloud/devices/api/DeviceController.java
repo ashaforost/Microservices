@@ -35,6 +35,13 @@ public class DeviceController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping(value = "/exists/{id}")
+    public Boolean isDevice(@PathVariable String id){
+            Optional<Device> device =  deviceService.getDeviceById(UUID.fromString(id));
+            return device.isPresent();
+
+    }
     @PostMapping()
     @ResponseBody
     public ResponseEntity<DeviceDto> saveDevice(@RequestBody DeviceDto device) {
@@ -50,6 +57,20 @@ public class DeviceController {
         }
     }
 
+
+
+    @DeleteMapping(value = "/{device_id}")
+    public String deleteDevice(@PathVariable String device_id){
+        try {
+            deviceService.deleteDeviceById(device_id);
+            return "Device deleted";
+        } catch (Exception e){
+            return "Device not found!";
+        }
+
+    }
+
+
     @GetMapping(value = "/v1/user/{userId}")
     private ResponseEntity<List<Device>> getUserDevices(@PathVariable String userId){
         try {
@@ -62,20 +83,6 @@ public class DeviceController {
             return  ResponseEntity.notFound().build();
         }
     }
-
-
-
-    @DeleteMapping(value = "/{device_id}")
-    public String deleteDevice(@PathVariable String device_id){
-        try {
-            deviceService.deleteDeviceById(UUID.fromString(device_id));
-            return "Device deleted";
-        } catch (Exception e){
-            return "Device not found!";
-        }
-
-    }
-
 
 
 }
